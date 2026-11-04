@@ -1,6 +1,12 @@
-import { getRecipe } from "../../data/recipes";
+import { getRecipe, recipes } from "../../data/recipes";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+
+export function generateStaticParams() {
+  return recipes.map((recipe) => ({
+    id: String(recipe.id),
+  }));
+}
 
 export default async function RecipeDetails({
   params,
@@ -23,32 +29,22 @@ export default async function RecipeDetails({
 
         <div className="text-6xl mt-8">{recipe.image}</div>
 
-        <h1 className="text-4xl font-bold mt-4">
-          {recipe.title}
-        </h1>
+        <h1 className="text-4xl font-bold mt-4">{recipe.title}</h1>
 
         <p className="text-gray-600 mt-3">
           {recipe.cuisine} • {recipe.minutes} mins • {recipe.difficulty}
         </p>
 
-        <p className="mt-4 text-gray-700">
-          {recipe.description}
-        </p>
+        <p className="mt-4 text-gray-700">{recipe.description}</p>
 
-        <h2 className="text-2xl font-bold mt-8 mb-4">
-          Ingredients
-        </h2>
-
+        <h2 className="text-2xl font-bold mt-8 mb-4">Ingredients</h2>
         <ul className="list-disc pl-6 space-y-2">
           {recipe.ingredients.map((ingredient, index) => (
             <li key={index}>{ingredient}</li>
           ))}
         </ul>
 
-        <h2 className="text-2xl font-bold mt-8 mb-4">
-          Cooking Steps
-        </h2>
-
+        <h2 className="text-2xl font-bold mt-8 mb-4">Cooking Steps</h2>
         <ol className="list-decimal pl-6 space-y-3">
           {recipe.steps.map((step, index) => (
             <li key={index}>{step}</li>
@@ -58,3 +54,4 @@ export default async function RecipeDetails({
     </main>
   );
 }
+
